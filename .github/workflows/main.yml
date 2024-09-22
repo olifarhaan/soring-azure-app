@@ -20,7 +20,7 @@ jobs:
           distribution: 'corretto'
 
       - name: Build with Gradle
-        run: ${{ github.workspace }}/gradlew -b build.gradle clean build -x test
+        run: ${{ github.workspace }}/gradlew clean build -x test
 
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v3
