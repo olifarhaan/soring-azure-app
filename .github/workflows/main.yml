@@ -1,0 +1,48 @@
+name: Build & Deploy Spring Azure App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-spring-azure-app:
+    name: Build and Deploy Spring Azure App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: 'corretto'
+
+      - name: Build with Gradle
+        run: ${{ github.workspace }}/gradlew -b build.gradle clean build -x test
+
+      - name: Upload artifact for deployment
+        uses: actions/upload-artifact@v3
+        with:
+          name: spring-azure-app
+          path: '${{ github.workspace }}/build/libs/*-boot.jar'
+
+  deploy-spring-azure-app:
+    name: Deploy Spring Azure App
+    runs-on: ubuntu-latest
+    needs: build-spring-azure-app
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: spring-azure-app
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_APP_NAME }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          package: '*.jar'
+
+          
