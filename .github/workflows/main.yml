@@ -1,4 +1,4 @@
-name: Build & Deploy Spring Azure App
+name: Build & Deploy Spring Azure App (Gradle)
 
 on:
   push:
