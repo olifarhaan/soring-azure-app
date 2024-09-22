@@ -11,14 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping
 public class TestController {
 
-    @Value("${app.github.environment.secret}")
-    private String githubEnvironmentSecret;
-
-    @Value("${app.azure.environment.secret}")
+    @Value("${app.azure.environment.secret:no-secret}")
     private String azureEnvironmentSecret;
 
     @GetMapping
     public Map<String, String> test() {
-        return Map.of("message", "Hello from Ali Farhan", "githubEnvironmentSecret", githubEnvironmentSecret, "azureEnvironmentSecret", azureEnvironmentSecret);
+        return Map.of("message", "Hello from Ali Farhan", "azureEnvironmentSecret", azureEnvironmentSecret);
     }
 }
