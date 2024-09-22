@@ -18,11 +18,6 @@ jobs:
         with:
           java-version: 21
           distribution: 'corretto'
-
-      - name: Set environment variables
-        run: |
-          echo "APP_GITHUB_TESTING_SECRET=${{ secrets.APP_GITHUB_TESTING_SECRET }}" >> $GITHUB_ENV
-          echo "MONGODB_ATLAS_PASSWORD=${{ secrets.MONGODB_ATLAS_PASSWORD }}" >> $GITHUB_ENV
         
       - name: Make gradlew executable
         run: chmod +x ${{ github.workspace }}/gradlew
